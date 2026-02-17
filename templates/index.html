@@ -1,118 +1,112 @@
 <!DOCTYPE html>
-<html lang="ru" class="dark">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Переводчик</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            background-color: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 20px rgba(0,0,0,0.1);
+            width: 400px;
+            text-align: center;
+        }
+        input[type=text], select {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 5px;
+            border: none;
+            background-color: #4CAF50;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .translated {
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #e8f5e9;
+            min-height: 50px;
+        }
+        .logout {
+            margin-top: 20px;
+        }
+        .logout a {
+            color: #FF4B5C;
+            text-decoration: none;
+        }
+        .logout a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
-<body class="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 flex items-center justify-center min-h-screen">
-
-<div class="bg-white dark:bg-gray-800 shadow-lg rounded-lg p-8 w-full max-w-md">
-    <h1 class="text-2xl font-bold mb-6 text-center">Переводчик 🌍</h1>
-
-    <form method="POST" class="space-y-4">
-        <textarea name="text" placeholder="Введите текст" required
-                  class="w-full p-3 border rounded-md dark:bg-gray-700 dark:border-gray-600"></textarea>
-
-        <div class="flex justify-between gap-2">
-            <div class="flex-1">
-                <label>С языка:</label>
-                <select name="from_lang" class="w-full p-2 border rounded-md dark:bg-gray-700 dark:border-gray-600">
-                    <option value="ru">Русский</option>
-                    <option value="en">Английский</option>
-                    <option value="fr">Французский</option>
-                    <option value="de">Немецкий</option>
-                </select>
-            </div>
-            <div class="flex-1">
-                <label>На язык:</label>
-                <select name="to_lang" class="w-full p-2 border rounded-md dark:bg-gray-700 dark:border-gray-600">
-                    <option value="en">Английский</option>
-                    <option value="ru">Русский</option>
-                    <option value="fr">Французский</option>
-                    <option value="de">Немецкий</option>
-                </select>
-            </div>
-        </div>
-
-        <div class="flex justify-between gap-2">
-            <button type="submit" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md">
-                Перевести
-            </button>
-            <button type="button" onclick="swapLanguages()" 
-                    class="flex-1 bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-md">
-                🔄 Поменять языки
-            </button>
-        </div>
-    </form>
-
-    {% if translated_text %}
-    <div class="mt-6 p-4 bg-gray-100 dark:bg-gray-700 rounded-md">
-        <h2 class="font-semibold mb-2">Результат перевода:</h2>
-        <p>{{ translated_text }}</p>
-    </div>
-    {% endif %}
-</div>
-
-<script>
-function swapLanguages() {
-    const fromLangSelect = document.querySelector('select[name="from_lang"]');
-    const toLangSelect = document.querySelector('select[name="to_lang"]');
-    
-    const temp = fromLangSelect.value;
-    fromLangSelect.value = toLangSelect.value;
-    toLangSelect.value = temp;
-}
-</script>
-
-
-<form method="POST" class="space-y-4">
-    <textarea name="text" placeholder="Введите текст" required
-              class="w-full p-3 border rounded-md dark:bg-gray-700 dark:border-gray-600"></textarea>
-
-    <div class="flex justify-between gap-2">
-        <div class="flex-1">
-            <label>С языка:</label>
-            <select name="from_lang" class="w-full p-2 border rounded-md dark:bg-gray-700 dark:border-gray-600">
-                <option value="ru">Русский</option>
-                <option value="en">Английский</option>
-                <option value="fr">Французский</option>
-                <option value="de">Немецкий</option>
-            </select>
-        </div>
-        <div class="flex-1">
-            <label>На язык:</label>
-            <select name="to_lang" class="w-full p-2 border rounded-md dark:bg-gray-700 dark:border-gray-600">
+<body>
+    <div class="container">
+        <h2>Переводчик</h2>
+        <form method="POST">
+            <input type="text" name="text" placeholder="Введите текст" required>
+            
+            <!-- Выбор языка -->
+            <label for="from_lang">С языка:</label>
+            <select name="from_lang" id="from_lang">
+                <option value="auto">Авто</option>
                 <option value="en">Английский</option>
                 <option value="ru">Русский</option>
                 <option value="fr">Французский</option>
                 <option value="de">Немецкий</option>
+                <option value="es">Испанский</option>
             </select>
+
+            <label for="to_lang">На язык:</label>
+            <select name="to_lang" id="to_lang">
+                <option value="en">Английский</option>
+                <option value="ru">Русский</option>
+                <option value="fr">Французский</option>
+                <option value="de">Немецкий</option>
+                <option value="es">Испанский</option>
+            </select>
+
+            <button type="submit">Перевести</button>
+        </form>
+
+        <div class="translated">
+            {% if translated %}
+                <strong>Перевод:</strong> {{ translated }}
+            {% endif %}
+        </div>
+
+        {% if history %}
+        <h3>История переводов</h3>
+        <ul>
+            {% for item in history %}
+                <li>{{ item.source_text }} → {{ item.translated_text }} ({{ item.from_lang }} → {{ item.to_lang }})</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+        <div class="logout">
+            <a href="{{ url_for('logout') }}">Выйти</a>
         </div>
     </div>
-
-    <div class="flex justify-between gap-2">
-        <button type="submit" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md">
-            Перевести
-        </button>
-        <button type="button" onclick="swapLanguages()" 
-                class="flex-1 bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-md">
-            🔄 Поменять языки
-        </button>
-    </div>
-</form>
-
-<script>
-function swapLanguages() {
-    const fromLangSelect = document.querySelector('select[name="from_lang"]');
-    const toLangSelect = document.querySelector('select[name="to_lang"]');
-    
-    const temp = fromLangSelect.value;
-    fromLangSelect.value = toLangSelect.value;
-    toLangSelect.value = temp;
-}
-</script>
-
 </body>
 </html>
