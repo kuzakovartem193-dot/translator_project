@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ru" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Переводчик</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 flex items-center justify-center min-h-screen">
+
+<div class="bg-white dark:bg-gray-800 shadow-lg rounded-lg p-8 w-full max-w-md">
+    <h1 class="text-2xl font-bold mb-6 text-center">Переводчик 🌍</h1>
+
+    <form method="POST" class="space-y-4">
+        <textarea name="text" placeholder="Введите текст" required
+                  class="w-full p-3 border rounded-md dark:bg-gray-700 dark:border-gray-600"></textarea>
+
+        <div class="flex justify-between gap-2">
+            <div class="flex-1">
+                <label>С языка:</label>
+                <select name="from_lang" class="w-full p-2 border rounded-md dark:bg-gray-700 dark:border-gray-600">
+                    <option value="ru">Русский</option>
+                    <option value="en">Английский</option>
+                    <option value="fr">Французский</option>
+                    <option value="de">Немецкий</option>
+                </select>
+            </div>
+            <div class="flex-1">
+                <label>На язык:</label>
+                <select name="to_lang" class="w-full p-2 border rounded-md dark:bg-gray-700 dark:border-gray-600">
+                    <option value="en">Английский</option>
+                    <option value="ru">Русский</option>
+                    <option value="fr">Французский</option>
+                    <option value="de">Немецкий</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="flex justify-between gap-2">
+            <button type="submit" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md">
+                Перевести
+            </button>
+            <button type="button" onclick="swapLanguages()" 
+                    class="flex-1 bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-md">
+                🔄 Поменять языки
+            </button>
+        </div>
+    </form>
+
+    {% if translated_text %}
+    <div class="mt-6 p-4 bg-gray-100 dark:bg-gray-700 rounded-md">
+        <h2 class="font-semibold mb-2">Результат перевода:</h2>
+        <p>{{ translated_text }}</p>
+    </div>
+    {% endif %}
+</div>
+
+<script>
+function swapLanguages() {
+    const fromLangSelect = document.querySelector('select[name="from_lang"]');
+    const toLangSelect = document.querySelector('select[name="to_lang"]');
+    
+    const temp = fromLangSelect.value;
+    fromLangSelect.value = toLangSelect.value;
+    toLangSelect.value = temp;
+}
+</script>
+
+
+<form method="POST" class="space-y-4">
+    <textarea name="text" placeholder="Введите текст" required
+              class="w-full p-3 border rounded-md dark:bg-gray-700 dark:border-gray-600"></textarea>
+
+    <div class="flex justify-between gap-2">
+        <div class="flex-1">
+            <label>С языка:</label>
+            <select name="from_lang" class="w-full p-2 border rounded-md dark:bg-gray-700 dark:border-gray-600">
+                <option value="ru">Русский</option>
+                <option value="en">Английский</option>
+                <option value="fr">Французский</option>
+                <option value="de">Немецкий</option>
+            </select>
+        </div>
+        <div class="flex-1">
+            <label>На язык:</label>
+            <select name="to_lang" class="w-full p-2 border rounded-md dark:bg-gray-700 dark:border-gray-600">
+                <option value="en">Английский</option>
+                <option value="ru">Русский</option>
+                <option value="fr">Французский</option>
+                <option value="de">Немецкий</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="flex justify-between gap-2">
+        <button type="submit" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md">
+            Перевести
+        </button>
+        <button type="button" onclick="swapLanguages()" 
+                class="flex-1 bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-md">
+            🔄 Поменять языки
+        </button>
+    </div>
+</form>
+
+<script>
+function swapLanguages() {
+    const fromLangSelect = document.querySelector('select[name="from_lang"]');
+    const toLangSelect = document.querySelector('select[name="to_lang"]');
+    
+    const temp = fromLangSelect.value;
+    fromLangSelect.value = toLangSelect.value;
+    toLangSelect.value = temp;
+}
+</script>
+
+</body>
+</html>
